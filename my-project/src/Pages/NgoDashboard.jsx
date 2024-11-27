@@ -53,10 +53,11 @@ const NgoDashboard = () => {
           <Route path="/" element={<Home />} />
           <Route path="donations" element={<CheckDonations />} />
           <Route path="campaigns" element={<Campaigns />} />
-          <Route path="Goodness" element={<Goodness />} />
-          <Route path="Goodness/create" element={<CreateGoodness />} />
-          <Route path="Goodness/edit" element={<EditGoodness />} />
-          <Route path="Goodness/delete" element={<DeleteGoodness />} />
+          <Route path="Goodness" element={<Goodness />} >
+            <Route path="create" element={<CreateGoodness />} />
+            <Route path="edit" element={<EditGoodness />} />
+            <Route path="delete" element={<DeleteGoodness />} />
+          </Route>
           <Route path="volunteers" element={<VolunteerInfo />} />
           <Route path="signout" element={<SignOut />} />
         </Routes>

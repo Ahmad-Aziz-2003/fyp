@@ -55,7 +55,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-[#1da099] text-white">
+    <nav className="bg-[#1da099] text-white fixed w-full">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 lg:px-8">
         <div className="flex items-center">
           <h1 className="text-2xl font-bold">Dast-e-Kahir</h1>
