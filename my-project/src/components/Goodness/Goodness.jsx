@@ -26,6 +26,9 @@ const Goodness = () => {
             Delete Goodness
           </button>
         </Link>
+        <Link to="/ngo-dashboard/Goodness/edit/goodnessPost">
+        
+        </Link>
       </div>
 
       {/* Outlet for nested routes */}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function ProfileCompletionForm() {
   // Initialize state with default values
+  const navigate = useNavigate(); // Initialize navigate
   const [formData, setFormData] = useState({
     name: "",
     registrationNumber: "",
@@ -103,8 +104,9 @@ function ProfileCompletionForm() {
       if (response.ok) {
         const data = await response.json();
         alert("Profile completed successfully!");
-        console.log(data);
-      } else {
+        console.log("Navigating to /");
+        navigate("/"); // Ensure this works
+      }  else {
         const errorData = await response.json();
         alert(`Failed to complete profile: ${errorData.error}`);
       }
