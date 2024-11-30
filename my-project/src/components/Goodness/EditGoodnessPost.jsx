@@ -23,6 +23,8 @@ const EditGoodnessPost = () => {
                 .catch((error) => console.error('Error fetching post data:', error));
         }
     }, [goodnessId]);
+
+    
     const handleSaveChanges = async () => {
         const formData = new FormData();
         formData.append('title', title);
@@ -52,6 +54,7 @@ const EditGoodnessPost = () => {
         } catch (error) {
             console.error('Error updating post:', error);
         }
+        
     };
     if (!post) {
         return <div>Loading...</div>; // Loading state while fetching post data
