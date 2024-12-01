@@ -6,6 +6,8 @@ const multer = require("multer");
 const createCampaigns = require("../controllers/campaignsControllers/createCampaigns");
 const getCampaignsForNgo=require("../controllers/campaignsControllers/getCampaignsForNgo");
 const getCampaignsById=require("../controllers/campaignsControllers/getCampaignsById");
+const deleteCampaignById=require("../controllers/campaignsControllers/deleteCampaignById");
+
 // Multer setup for file handling
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -19,5 +21,7 @@ router.post(
 router.get("/All-Campaigns/:ngoId", getCampaignsForNgo.getCampaignsForNgo);
 
 router.get("/campaign-post/:campaignId", getCampaignsById.getCampaignsById);
+
+router.delete("/campaign-delete/:campaignId",deleteCampaignById.deleteCampaignById)
 
 module.exports = router;

@@ -9,13 +9,15 @@ import CreateGoodness  from '../components/Goodness/CreateGoondess';
 import EditGoodness from '../components/Goodness/EditGoodness';
 import EditGoodnessPost from '../components/Goodness/EditGoodnessPost'; // Import the EditGoodnessPost component
 import DeleteGoodness from '../components/Goodness/DeleteGoodness';
-import VolunteerInfo from '../components/VolunteerInfo';
+import Volunteer from '../components/Volunteer/Volunteer';
 import SignOut from '../components/SignOut';
 import Home from '../components/Home';
 import CreateCampaigns from '../components/Campaigns/CreateCampaigns';
 import EditCampigns from '../components/Campaigns/EditCampigns';
 import DeleteCampaigns from '../components/Campaigns/DeleteCampaigns';
 import EditCampaignSpecific from '../components/Campaigns/EditCampaignSpecific';
+import RequestVolunteer from '../components/Volunteer/RequestVolunteer';
+import VolunteerInfo from '../components/Volunteer/VolunteerInfo';
 
 const NgoDashboard = () => {
   return (
@@ -37,7 +39,10 @@ const NgoDashboard = () => {
             <Route path="edit/goodnessPost" element={<EditGoodnessPost />} /> {/* Add dynamic route */}
             <Route path="delete" element={<DeleteGoodness />} />
           </Route>
-          <Route path="volunteers" element={<VolunteerInfo />} />
+          <Route path="volunteers" element={<Volunteer />} >
+            <Route path="request" element={<RequestVolunteer />} />
+            <Route path="info" element={<VolunteerInfo />} />
+          </Route>
           <Route path="signout" element={<SignOut />} />
         </Routes>
       </div>
