@@ -60,7 +60,12 @@ async function registerNGO(req, res) {
         },
         categories: [],
         isRequestingVolunteers: false,
-        volunteerDetails: "",
+        volunteerDetails: {
+          purpose:"",
+          location:"",
+          noOfvolunteer:"",
+          desc:"",
+        },
       };
   
       // Save NGO data with the NGO ID as the key in Firebase Realtime Database
