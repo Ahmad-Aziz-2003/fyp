@@ -18,6 +18,8 @@ import DeleteCampaigns from '../components/Campaigns/DeleteCampaigns';
 import EditCampaignSpecific from '../components/Campaigns/EditCampaignSpecific';
 import RequestVolunteer from '../components/Volunteer/RequestVolunteer';
 import VolunteerInfo from '../components/Volunteer/VolunteerInfo';
+import ChangePassword from '../components/ChangePassword';
+import ProfileUpdate from '../components/ProfileUpdate';
 
 const NgoDashboard = () => {
   return (
@@ -26,6 +28,8 @@ const NgoDashboard = () => {
       <div className="flex-grow p-6">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/profile-update" element={<ProfileUpdate />} />
           <Route path="donations" element={<CheckDonations />} />
           <Route path="campaigns" element={<Campaigns />} >
             <Route path="create" element={<CreateCampaigns />} />
