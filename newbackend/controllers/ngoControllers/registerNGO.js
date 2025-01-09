@@ -13,7 +13,7 @@ async function registerNGO(req, res) {
       if (!email || !registrationNumber || !password || !name || !foundedDate) {
         return res.status(400).json({ error: "All required fields must be filled." });
       }
-  
+  console.log("hhhello")
       // Check if email or registration number already exists in Realtime Database
       const ngoRef = db.ref("NGOs");
       const snapshot = await ngoRef.once("value");
@@ -30,6 +30,7 @@ async function registerNGO(req, res) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
   
+      console.log("hhhello")
       // // Use a custom UID as the NGO ID (can be a generated ID or another unique field)
       const ngoId=user.uid;
   
@@ -68,14 +69,17 @@ async function registerNGO(req, res) {
         },
       };
   
+      console.log("hhhello")
       // Save NGO data with the NGO ID as the key in Firebase Realtime Database
       await ngoRef.child(ngoId).set(initialData);
   
+      console.log("hhhello")
       // Send a successful response including the ngoId and initialData
       res.status(201).json({
         message: "NGO registered successfully",
         ngoId,
         ngoData: initialData,
+        
       });
     } catch (error) {
       console.error("Error registering NGO:", error);
