@@ -39,7 +39,7 @@ const Sidebar = () => {
             Dast-e-Khair
           </h2> */}
 
-          <Link to={"/ngo-dashboard"} className="sidebar-item no-underline">
+          <Link to={"/admin-dashboard"} className="sidebar-item no-underline">
             <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
               <FaHome size={24} />
               <p className="text-2xl">Home</p>
@@ -47,52 +47,32 @@ const Sidebar = () => {
           </Link>
 
           <Link
-            to={"/ngo-dashboard/donations"}
+            to={"/admin-dashboard/donors-list"}
             className="sidebar-item no-underline"
           >
             <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
               <FaDonate size={24} />
-              <p className="text-2xl">Donations</p>
+              <p className="text-2xl">Donors</p>
             </div>
           </Link>
 
           <Link
-            to={"/ngo-dashboard/volunteers"}
+            to={"/admin-dashboard/ngos-list"}
             className="sidebar-item no-underline"
           >
             <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
               <FaHandsHelping size={24} />
-              <p className="text-2xl">Volunteers</p>
+              <p className="text-2xl">NGO's</p>
             </div>
           </Link>
 
           <Link
-            to={"/ngo-dashboard/campaigns"}
+            to={"/admin-dashboard/donations"}
             className="sidebar-item no-underline"
           >
             <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
               <FaUserShield size={24} />
-              <p className="text-2xl">Campaigns</p>
-            </div>
-          </Link>
-
-          <Link
-            to={"/ngo-dashboard/Goodness"}
-            className="sidebar-item no-underline"
-          >
-            <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
-              <FaChartBar size={24} />
-              <p className="text-2xl">Goodness</p>
-            </div>
-          </Link>
-
-          <Link
-            to={"/ngo-dashboard/projects"}
-            className="sidebar-item no-underline"
-          >
-            <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
-              <FaHandsHelping size={24} />
-              <p className="text-2xl">Projects</p>
+              <p className="text-2xl">Donations</p>
             </div>
           </Link>
         </div>

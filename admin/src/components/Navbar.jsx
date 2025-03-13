@@ -47,17 +47,17 @@ const Navbar = () => {
 
   const handleProfile = () => {
     setShowDropdown(false);
-    navigate("/ngo-dashboard/profile-update");
+    navigate("/admin-dashboard/profile-update");
   };
 
   const handleChangePassword = () => {
     setShowDropdown(false);
-    navigate("/ngo-dashboard/change-password");
+    navigate("/admin-dashboard/change-password");
   };
 
   const handleLogout = () => {
     setShowDropdown(false);
-    navigate("/ngo-dashboard/logout");
+    navigate("/admin-dashboard/logout");
   };
   // bg-[#1da099]
   return (

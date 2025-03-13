@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Home = () => {
+const DonorsList = () => {
   return (
     <div className='min-h-screen py-10 px-6 mt-20'>
-   home page
-  </div>
+      donors lissts
+    </div>
   )
 }
 
-export default Home
+export default DonorsList
