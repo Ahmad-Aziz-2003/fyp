@@ -110,6 +110,7 @@ const Home = () => {
           <p className="text-gray-500">Founded: {ngoData.foundedDate}</p>
           <p className="text-gray-500 mt-1">Email: {ngoData.email}</p>
         </div>
+    
       </section>
 
       {/* Public Message */}
