@@ -19,7 +19,7 @@ async function getNGOData(req, res) {
       }
   
       // Filter out unwanted fields
-      const { name, email, registrationNumber,foundedDate, profilePhoto,publicMessage,description, address, contact, categories } = ngoData;
+      const { name, email, registrationNumber,foundedDate, profilePhoto,publicMessage,description, address, contact, categories, type } = ngoData;
   
       // Prepare the response object
       const filteredData = {
@@ -33,6 +33,7 @@ async function getNGOData(req, res) {
         address,
         contact,
         categories,
+        type,
       };
   
       // Send the filtered data

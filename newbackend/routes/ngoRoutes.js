@@ -39,7 +39,7 @@ router.post("/password/:ngoId", changePassword.changePassword);
 
 // Route to update NGO information
 // router.put("/updateInfo/:ngoId", ngoController.updateNGOInfo);
-router.put("/updateInfo/:ngoId", updateNGOInfo.updateNGOInfo);
+router.put("/updateInfo/:ngoId",upload.single("profilePhoto"), updateNGOInfo.updateNGOInfo);
 
 // Forgot password route
 // router.post("/forgot-password", ngoController.forgotPassword);

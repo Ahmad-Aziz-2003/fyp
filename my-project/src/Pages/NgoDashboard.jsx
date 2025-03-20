@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import CheckDonations from "../components/CheckDonations";
+import CheckDonations from "../components/Donations/CheckDonations";
 import Campaigns from "../components/Campaigns/Campaigns";
 import Goodness from "../components/Goodness/Goodness";
 import CreateGoodness from "../components/Goodness/CreateGoondess";
@@ -23,6 +23,8 @@ import ProfileUpdate from "../components/ProfileUpdate";
 import Projects from "../components/Projects/Project";
 import CreateProject from "../components/Projects/CreateProject";
 import ProjectView from "../components/Projects/ProjectView";
+import Donation from "../components/Donations/Donation";
+import ItemBasedDonation from "../components/Donations/ItemBasedDonation";
 
 const NgoDashboard = () => {
   return (
@@ -34,7 +36,10 @@ const NgoDashboard = () => {
           <Route path="/" element={<Home />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/profile-update" element={<ProfileUpdate />} />
-          <Route path="donations" element={<CheckDonations />} />
+          <Route path="donations" element={<Donation />} ></Route>
+          <Route path="monetary-donations" element={<CheckDonations />} />
+          <Route path="item-based" element={<ItemBasedDonation />} />
+          <Route path="editCampaign" element={<EditCampigns />} />
           <Route path="campaigns" element={<Campaigns />}></Route>
           <Route path="createCampaign" element={<CreateCampaigns />} />
           <Route path="editCampaign" element={<EditCampigns />} />

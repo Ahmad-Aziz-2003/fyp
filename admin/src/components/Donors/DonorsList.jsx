@@ -216,13 +216,26 @@ const DonorsList = () => {
           <tbody className="text-gray-600 text-sm font-light">
             {filteredUsers.map((user) => (
               <tr key={user.userId} className="border-b border-gray-200 hover:bg-gray-100">
-                <td className="py-3 px-6">
+                {/* <td className="py-3 px-6">
                   <img
                     src={user.photoUrl || "/default-user.png"}
                     alt="Profile"
                     className="w-10 h-10 rounded-full object-cover border"
                   />
-                </td>
+                </td> */}
+                <td className="py-3 px-6">
+  {user.photoUrl ? (
+    <img
+      src={user.photoUrl}
+      alt="Profile"
+      className="w-10 h-10 rounded-full object-cover border"
+    />
+  ) : (
+    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-300 text-black font-bold text-lg">
+      {user.name ? user.name[0].toUpperCase() : "U"}
+    </div>
+  )}
+</td>
                 <td className="py-3 px-6">{user.name}</td>
                 <td className="py-3 px-6">{user.email}</td>
                 <td className="py-3 px-6">{user.phone}</td>

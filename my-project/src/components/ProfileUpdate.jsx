@@ -111,7 +111,7 @@ const ProfileUpdate = () => {
 
       const ngoId = localStorage.getItem("ngoId");
       const response = await fetch(
-        `http://localhost:5000/api/ngos/updateProfile/${ngoId}`,
+        `http://localhost:5000/api/ngos/updateProfi/${ngoId}`,
         {
           method: "PUT",
           body: formDataPayload,
@@ -164,6 +164,7 @@ const ProfileUpdate = () => {
           <input
             type="text"
             name="name"
+            disabled
             value={formData.name}
             placeholder="NGO Name"
             onChange={handleChange}
@@ -172,6 +173,7 @@ const ProfileUpdate = () => {
           <input
             type="text"
             name="registrationNumber"
+            disabled
             value={formData.registrationNumber}
             placeholder="Registration Number"
             onChange={handleChange}
@@ -180,6 +182,7 @@ const ProfileUpdate = () => {
           <input
             type="email"
             name="email"
+            disabled
             value={formData.email}
             placeholder="NGO Email"
             onChange={handleChange}
@@ -188,6 +191,7 @@ const ProfileUpdate = () => {
           <input
             type="date"
             name="foundedDate"
+            disabled
             value={formData.foundedDate}
             onChange={handleChange}
             className="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-600"
