@@ -42,8 +42,8 @@ async function registerNGO(req, res) {
         password, // Store password only if necessary (preferably hashed)
         name,
         foundedDate,
-        isVerified: true, // Default value
-        isDeactivated: true, // Default value
+        isVerified: false, // Default value
+        isDeactivated: false, // Default value
         isProfileCompletion: false,
         messageQuote: "",
         description: "",

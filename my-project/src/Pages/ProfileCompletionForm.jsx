@@ -53,14 +53,14 @@ function ProfileCompletionForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[0-9]{7,15}$/;
 
-    if (!formData.name) newErrors.name = "Name is required.";
-    if (!numberRegex.test(formData.registrationNumber))
-      newErrors.registrationNumber =
-        "Registration number must contain only numbers.";
-    if (!emailRegex.test(formData.email))
-      newErrors.email = "Please enter a valid email address.";
-    if (!formData.foundedDate)
-      newErrors.foundedDate = "Founded date is required.";
+    // if (!formData.name) newErrors.name = "Name is required.";
+    // if (!numberRegex.test(formData.registrationNumber))
+    //   newErrors.registrationNumber =
+    //     "Registration number must contain only numbers.";
+    // if (!emailRegex.test(formData.email))
+    //   newErrors.email = "Please enter a valid email address.";
+    // if (!formData.foundedDate)
+    //   newErrors.foundedDate = "Founded date is required.";
     if (!alphabetRegex.test(formData.address.city))
       newErrors.city = "City must contain only letters.";
     if (!alphabetRegex.test(formData.address.state))
@@ -162,7 +162,7 @@ function ProfileCompletionForm() {
     if (!showAlert && alertMessage === "Profile Completed Successfully!") {
       setLoading(false);
       console.log("Navigating to /ngo-dashboard");
-      navigate("/ngo-dashboard");
+      navigate("/request-verification");
     }
   }, [showAlert, alertMessage, navigate]);
 

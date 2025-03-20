@@ -7,7 +7,12 @@ const multer = require("multer");
 const registerAdmin=require("../controllers/adminControllers/adminAuthControllers/registerAdmin");
 const adminSignin=require("../controllers/adminControllers/adminAuthControllers/signinAdmin");
 const getAllNGOs=require("../controllers/adminControllers/adminNGOControllers/getAllNGOs")
-const getUnverifiedNGOs=require("../controllers/adminControllers/adminNGOControllers/getUnverifiedNGOs")
+const getUnverifiedNGOs=require("../controllers/adminControllers/adminNGOControllers/getUnverifiedNGOs");
+const getAllUsers  = require("../controllers/adminControllers/adminUserControllers/getAllUser");
+const toggleUserBlockStatus  = require("../controllers/adminControllers/adminUserControllers/toggleUserBlockStatus");
+const toggleNGOStatus  = require("../controllers/adminControllers/adminNGOControllers/toggleNGOStatus");
+const getNgoDetail  = require("../controllers/adminControllers/adminNGOControllers/getNgoDetail");
+const verifyNGO  = require("../controllers/adminControllers/adminNGOControllers/verifyNGO");
 
 // Multer setup for file handling
 const storage = multer.memoryStorage();
@@ -22,5 +27,14 @@ router.get("/ngos",getAllNGOs.getAllNGOs)
 
 router.get("/unverify-ngos",getUnverifiedNGOs.getUnverifiedNGOs)
 
+router.get("/users",getAllUsers.getAllUsers)
+
+router.post("/change-Status",toggleUserBlockStatus.toggleUserBlockStatus)
+
+router.put("/ngos/toggle-status/:ngoId", toggleNGOStatus.toggleNGOStatus);
+
+router.get("/ngo/detail-profile/:ngoId",getNgoDetail.getNgoDetail)
+
+router.post("/verify-ngo/:ngoId",verifyNGO.verifyNGO);
 
 module.exports = router;

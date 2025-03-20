@@ -57,6 +57,16 @@ const Sidebar = () => {
           </Link>
 
           <Link
+            to={"/admin-dashboard/ngos-verifications"}
+            className="sidebar-item no-underline"
+          >
+            <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
+              <FaHandsHelping size={24} />
+              <p className="text-2xl">ngo-verify</p>
+            </div>
+          </Link>
+
+          <Link
             to={"/admin-dashboard/ngos-list"}
             className="sidebar-item no-underline"
           >

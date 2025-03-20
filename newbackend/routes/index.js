@@ -9,6 +9,8 @@ const campaignsRoutes=require("./campaignsRoutes");
 const volunteerRoutes=require("./volunteerRoutes");
 const projectRoutes=require("./projectRoutes");
 const adminRoutes=require("./adminRoutes");
+const donationRoutes=require("./donationRoutes");
+
 // Use the resource routes
 router.use("/ngos", ngoRoutes); // All NGO-related routes will be under /api/ngos
 
@@ -21,5 +23,7 @@ router.use("/volunteer", volunteerRoutes);
 router.use("/project",projectRoutes);
 
 router.use("/admin",adminRoutes);
+
+router.use("/donations",donationRoutes);
 
 module.exports = router;

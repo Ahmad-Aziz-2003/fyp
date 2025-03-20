@@ -9,6 +9,8 @@ import Donations from "../components/Donations/Donations";
 import DonorsList from "../components/Donors/DonorsList";
 import NGOslist from "../components/NGOs/NGOslist";
 import { useNavigate } from "react-router-dom";
+import NGODetail from "../components/NGOs/NGODetail";
+import VerificationRequestNgo from "../components/NGOs/VerificationRequestNgo";
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
@@ -30,8 +32,11 @@ const AdminDashboard = () => {
           <Route path="/" element={<Home />} />
           <Route path="/change-password" element={<ChangePassword />} />
           {/* <Route path="/profile-update" element={<ProfileUpdate />} /> */}
+          <Route path="ngos-verifications" element={<VerificationRequestNgo/>} />
           <Route path="donations" element={<Donations />} />
           <Route path="ngos-list" element={<NGOslist />}/>
+          <Route path="NgoDetail" element={<NGODetail />} />
+
           {/* <Route path="createCampaign" element={<CreateCampaigns />} />
           <Route path="editCampaign" element={<EditCampigns />} /> */}
           {/* <Route

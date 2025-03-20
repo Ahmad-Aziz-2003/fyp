@@ -49,6 +49,7 @@ async function signinNGO(req, res) {
           token: await user.getIdToken(), // Include the Firebase ID token
           ngoId, // Include NGO ID in the response
           isProfileCompletion: ngoData.isProfileCompletion, // Return the profile completion status
+          isVerified: ngoData.isVerified,
         });
       } else {
         // If profile is incomplete, return the NGO data along with the profile completion status

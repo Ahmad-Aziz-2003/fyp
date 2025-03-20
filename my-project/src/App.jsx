@@ -5,6 +5,7 @@ import NgoDashboard from "./Pages/NgoDashboard";
 import ProfileCompletionForm from "./Pages/ProfileCompletionForm.jsx";
 import Login from "./components/Login.jsx";
 import LandingHome from "./Pages/LandingHome.jsx";
+import RequestPending from "./Pages/RequestPending.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -23,6 +24,10 @@ const App = () => {
         <Route
           path="/profile-completion/*"
           element={<ProfileCompletionForm />}
+        />
+         <Route
+          path="/request-verification/*"
+          element={<RequestPending />}
         />
       </Routes>
     </div>
