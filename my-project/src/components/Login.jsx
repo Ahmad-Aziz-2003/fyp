@@ -41,6 +41,9 @@ const Login = () => {
       // } 
       if (data.isProfileCompletion) {
                 if (data.isVerified) {
+                  // if(data.isDeactivated===false){
+                  //   navigate("/deactivate")
+                  // }
                   navigate("/ngo-dashboard");
                 } else {
                   navigate("/request-verification");

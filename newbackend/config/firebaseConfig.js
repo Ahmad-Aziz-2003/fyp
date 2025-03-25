@@ -8,7 +8,8 @@ const serviceAccount = require("./newapp-ddcc9-firebase-adminsdk-tmb54-2d8b45cac
 // Initialize Firebase Admin with service account and database URL
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://newapp-ddcc9-default-rtdb.firebaseio.com", // Replace with your actual Firebase Realtime Database URL
+   databaseURL: "https://newapp-ddcc9-default-rtdb.firebaseio.com", // Replace with your actual Firebase Realtime Database URL
+  // databaseURL:"https://burgerapp-472c8-default-rtdb.firebaseio.com",
   storageBucket: "newapp-ddcc9.appspot.com",  // Use the correct Firebase Storage bucket URL
   timeout: 60000 
 });

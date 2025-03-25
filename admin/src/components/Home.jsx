@@ -20,7 +20,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen py-10 px-6 mt-20 bg-gray-100">
+    <div className="min-h-screen py-10 px-6 mt-20 ">
       <h1 className="text-3xl font-bold text-center text-[#225738] mb-8">Admin Dashboard</h1>
 
       {loading ? (

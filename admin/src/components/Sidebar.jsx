@@ -76,7 +76,7 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link
+          {/* <Link
             to={"/admin-dashboard/donations"}
             className="sidebar-item no-underline"
           >
@@ -84,7 +84,7 @@ const Sidebar = () => {
               <FaUserShield size={24} />
               <p className="text-2xl">Donations</p>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div className="flex-1 ml-64 overflow-y-auto "></div>

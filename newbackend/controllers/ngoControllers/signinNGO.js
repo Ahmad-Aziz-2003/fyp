@@ -50,6 +50,7 @@ async function signinNGO(req, res) {
           ngoId, // Include NGO ID in the response
           isProfileCompletion: ngoData.isProfileCompletion, // Return the profile completion status
           isVerified: ngoData.isVerified,
+          isDeactivated:ngoData.isDeactivated,
         });
       } else {
         // If profile is incomplete, return the NGO data along with the profile completion status

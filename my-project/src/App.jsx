@@ -6,6 +6,7 @@ import ProfileCompletionForm from "./Pages/ProfileCompletionForm.jsx";
 import Login from "./components/Login.jsx";
 import LandingHome from "./Pages/LandingHome.jsx";
 import RequestPending from "./Pages/RequestPending.jsx";
+import IsDeactive from "./Pages/isDeactive.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -28,6 +29,10 @@ const App = () => {
          <Route
           path="/request-verification/*"
           element={<RequestPending />}
+        />
+           <Route
+          path="/deactivate/*"
+          element={<IsDeactive />}
         />
       </Routes>
     </div>
