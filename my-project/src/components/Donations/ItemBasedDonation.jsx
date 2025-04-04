@@ -156,7 +156,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { database } from "../../config/firebaseConfig";
-import { ref, onValue, push } from "firebase/database";
+import { ref, onValue, push, update } from "firebase/database";
 
 const ItemBasedDonation = () => {
   const [donations, setDonations] = useState([]);
@@ -166,28 +166,49 @@ const ItemBasedDonation = () => {
   const [newMessage, setNewMessage] = useState("");
   const [chatDetails, setChatDetails] = useState(null);
 
-  useEffect(() => {
-    const fetchDonations = async () => {
-      try {
-        const storedNgoId = localStorage.getItem("ngoId");
-        if (!storedNgoId) {
-          console.error("No NGO ID found in local storage");
-          setLoading(false);
-          return;
-        }
-        const response = await axios.get(
-          `http://localhost:5000/api/donations/item-based/${storedNgoId}`
-        );
-        setDonations(response.data);
-      } catch (error) {
-        console.error("Error fetching donations:", error);
-      } finally {
+
+  const fetchDonations = async () => {
+    try {
+      const storedNgoId = localStorage.getItem("ngoId");
+      if (!storedNgoId) {
+        console.error("No NGO ID found in local storage");
         setLoading(false);
+        return;
       }
-    };
+
+      const response = await axios.get(`http://localhost:5000/api/donations/item-based/${storedNgoId}`);
+      const donationList = response.data;
+     console.log(donationList);
+      const donationsWithUnreadCounts = await Promise.all(
+        donationList.map(async (donation) => {
+          const chatRef = ref(database, `Chats/${donation.id}/messages`);
+          return new Promise((resolve) => {
+            onValue(chatRef, (snapshot) => {
+              let unreadCount = 0;
+              if (snapshot.exists()) {
+                const msgs = Object.values(snapshot.val());
+                unreadCount = msgs.filter(
+                  (msg) => msg.sender === "user" && msg.isread === false
+                ).length;
+              }
+              resolve({ ...donation, id: donation.id, unreadCount });
+            }, { onlyOnce: true });
+          });
+        })
+      );
+
+      setDonations(donationsWithUnreadCounts);
+    } catch (error) {
+      console.error("Error fetching donations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+   
     fetchDonations();
   }, []);
-
+console.log(donations);  
   const updateStatus = async (donationId) => {
     if (!window.confirm("Are you sure you want to mark this donation as processing?")) return;
     try {
@@ -204,17 +225,44 @@ const ItemBasedDonation = () => {
     loadMessages(donationId);
   };
 
+  // const loadMessages = (donationId) => {
+  //   const chatRef = ref(database, `Chats/${donationId}/messages`);
+  //   onValue(chatRef, (snapshot) => {
+  //     if (snapshot.exists()) {
+  //       setMessages(Object.values(snapshot.val()));
+  //     } else {
+  //       setMessages([]);
+  //     }
+  //   });
+  // };
   const loadMessages = (donationId) => {
     const chatRef = ref(database, `Chats/${donationId}/messages`);
     onValue(chatRef, (snapshot) => {
       if (snapshot.exists()) {
-        setMessages(Object.values(snapshot.val()));
+        const msgsObj = snapshot.val();
+        const msgsArray = Object.entries(msgsObj); // Convert to entries for easy iteration
+  
+        // Loop through messages to check if the user message is unread
+        msgsArray.forEach(([key, msg]) => {
+          if (msg.sender === "user" && msg.isread === false) {
+            // Update isread to true for unread user messages
+            const msgRef = ref(database, `Chats/${donationId}/messages/${key}`);
+            update(msgRef, { isread: true }).then(() => {
+              console.log(`Updated message ${key} to read`);
+            }).catch(error => {
+              console.error("Error updating isread field:", error);
+            });
+          }
+        });
+  
+        // Set the messages to the state after marking user messages as read
+        setMessages(Object.values(msgsObj)); 
       } else {
         setMessages([]);
       }
     });
   };
-
+  
   const sendMessage = () => {
     if (!newMessage.trim()) return;
     const chatRef = ref(database, `Chats/${chatDetails.donationId}/messages`);
@@ -222,6 +270,7 @@ const ItemBasedDonation = () => {
       sender: "ngo",
       text: newMessage,
       timestamp: new Date().toISOString(),
+      isread:false,
     });
     setNewMessage("");
   };
@@ -239,11 +288,32 @@ const ItemBasedDonation = () => {
       sortable: false,
       renderCell: (params) => (
         <>
-          <IconButton color="primary" title="Chat" 
-          disabled={params.row.isChat === "false"}
-          onClick={() => handleOpenChat(params.row.id)}>
-            <ChatIcon />
-          </IconButton>
+         <IconButton
+  color="primary"
+  title="Chat"
+  disabled={params.row.isChat === "false"}
+  onClick={() => handleOpenChat(params.row.id)}
+  style={{ position: "relative" }}
+>
+  <ChatIcon />
+  {params.row.isChat !== "false" && params.row.unreadCount > 0 && (
+    <span
+      style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        backgroundColor: "red",
+        color: "white",
+        borderRadius: "50%",
+        padding: "2px 6px",
+        fontSize: "10px",
+      }}
+    >
+      {params.row.unreadCount}
+    </span>
+  )}
+</IconButton>
+
           <IconButton color="warning" title="Processing" onClick={() => updateStatus(params.row.id)}>
             <HourglassEmptyIcon />
           </IconButton>
@@ -317,9 +387,15 @@ const ItemBasedDonation = () => {
     >
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
             <Typography variant="h6">Chat</Typography>
-            <IconButton onClick={() => setOpenChat(false)}>
+            {/* <IconButton onClick={() => setOpenChat(false)}>
               <CancelIcon />
-            </IconButton>
+            </IconButton> */}
+            <IconButton onClick={() => {
+  setOpenChat(false);  // Close the chat
+  fetchDonations();  // Fetch donations again after closing the chat
+}}>
+  <CancelIcon />
+</IconButton>
           </Box>
           <Box sx={{ flex: 1, overflowY: "auto", marginBottom: 2 }}>
             {messages.map((msg, index) => (
