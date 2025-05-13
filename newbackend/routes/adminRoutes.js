@@ -14,7 +14,8 @@ const toggleNGOStatus  = require("../controllers/adminControllers/adminNGOContro
 const getNgoDetail  = require("../controllers/adminControllers/adminNGOControllers/getNgoDetail");
 const verifyNGO  = require("../controllers/adminControllers/adminNGOControllers/verifyNGO");
 const adminInfo  = require("../controllers/adminControllers/adminAuthControllers/adminInfo");
-const getPlatformStats=require("../controllers/adminControllers/adminAuthControllers/getPlatformStats")
+const getPlatformStats=require("../controllers/adminControllers/adminAuthControllers/getPlatformStats");
+const { rejectNGO } = require("../controllers/adminControllers/adminNGOControllers/rejectNGO");
 // Multer setup for file handling
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -42,6 +43,6 @@ router.get("/ngo/detail-profile/:ngoId",getNgoDetail.getNgoDetail)
 
 router.post("/verify-ngo/:ngoId",verifyNGO.verifyNGO);
 
-
+router.delete('/reject/:ngoId', rejectNGO);
 
 module.exports = router;

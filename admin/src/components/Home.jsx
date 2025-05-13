@@ -35,7 +35,6 @@ const Home = () => {
               <p className="text-2xl font-bold">{stats.totalUsers}</p>
             </div>
           </div>
-
           {/* Active Users */}
           <div className="bg-white p-6 rounded-lg shadow-lg flex items-center">
             <FaUserShield className="text-4xl text-green-600 mr-4" />
