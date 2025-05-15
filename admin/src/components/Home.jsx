@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaUsers, FaCheckCircle, FaTimesCircle, FaHandsHelping, FaUserShield, FaUser } from "react-icons/fa";
-
+import CircularProgress from '@mui/material/CircularProgress'; // <-- Add this import
 const Home = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,12 @@ const Home = () => {
       <h1 className="text-3xl font-bold text-center text-[#225738] mb-8">Admin Dashboard</h1>
 
       {loading ? (
-        <p className="text-center text-lg">Loading statistics...</p>
+  
+
+<div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+  <CircularProgress />
+</div>
+
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {/* Total Users */}

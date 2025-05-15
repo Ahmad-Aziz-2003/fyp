@@ -25,7 +25,9 @@ import CreateProject from "../components/Projects/CreateProject";
 import ProjectView from "../components/Projects/ProjectView";
 import Donation from "../components/Donations/Donation";
 import ItemBasedDonation from "../components/Donations/ItemBasedDonation";
-
+import StatsNgo from "../components/StatsNgo";
+import EditProjectSpecific from "../components/Projects/EditProjectSpecific"
+import HistoryItembaseDonation from "../components/Donations/HistoryItemBasedonation";
 const NgoDashboard = () => {
   return (
     <div className="flex">
@@ -39,6 +41,7 @@ const NgoDashboard = () => {
           <Route path="donations" element={<Donation />} ></Route>
           <Route path="monetary-donations" element={<CheckDonations />} />
           <Route path="item-based" element={<ItemBasedDonation />} />
+          <Route path="item-history" element={<HistoryItembaseDonation/>} />
           <Route path="editCampaign" element={<EditCampigns />} />
           <Route path="campaigns" element={<Campaigns />}></Route>
           <Route path="createCampaign" element={<CreateCampaigns />} />
@@ -62,6 +65,11 @@ const NgoDashboard = () => {
           <Route path="projects" element={<Projects />}></Route>
           <Route path="createProject" element={<CreateProject />} />
           <Route path="viewProject" element={<ProjectView />} />
+          <Route
+            path="viewProject/edit"
+            element={<EditProjectSpecific/>}
+          />{" "}
+          <Route path="stats" element={<StatsNgo />}></Route>
           <Route path="logout" element={<LogOut />} />
         </Routes>
       </div>

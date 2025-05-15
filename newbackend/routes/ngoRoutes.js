@@ -11,7 +11,7 @@ const getNGOData=require("../controllers/ngoControllers/getNGOData");
 const changePassword=require("../controllers/ngoControllers/changePassword");
 const updateNGOInfo=require("../controllers/ngoControllers/updateNGOInfo")
 const forgotPassword=require("../controllers/ngoControllers/forgotPassword")
-
+const getStats=require("../controllers/ngoControllers/getStats")
 // Multer setup for file handling
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -44,5 +44,7 @@ router.put("/updateInfo/:ngoId",upload.single("profilePhoto"), updateNGOInfo.upd
 // Forgot password route
 // router.post("/forgot-password", ngoController.forgotPassword);
 router.post("/forgot-password", forgotPassword.forgotPassword);
+
+router.get("/stats/:ngoId", getStats.getStats);
 
 module.exports = router;

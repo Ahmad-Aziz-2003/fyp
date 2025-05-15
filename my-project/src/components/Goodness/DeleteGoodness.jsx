@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const DeleteGoodness = () => {
   const [goodnessPosts, setGoodnessPosts] = useState([]);
@@ -9,20 +10,45 @@ const DeleteGoodness = () => {
   const [goodnessIdToDelete, setGoodnessIdToDelete] = useState(null); // To track which goodness post is being deleted
   const ngoId = localStorage.getItem("ngoId"); // Retrieve NGO ID from local storage
 
-  useEffect(() => {
-    // Fetching data from the API
-    fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extracting the data and adding the goodnessId as part of the post data
-        const posts = Object.keys(data).map((key) => ({
-          goodnessId: key, // The key is the goodnessId
-          ...data[key], // The post data
-        }));
-        setGoodnessPosts(posts);
-      })
-      .catch((error) => console.error("Error fetching goodness posts:", error));
-  }, [ngoId]);
+  // useEffect(() => {
+  //   // Fetching data from the API
+  //   fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Extracting the data and adding the goodnessId as part of the post data
+  //       const posts = Object.keys(data).map((key) => ({
+  //         goodnessId: key, // The key is the goodnessId
+  //         ...data[key], // The post data
+  //       }));
+  //       setGoodnessPosts(posts);
+  //     })
+  //     .catch((error) => console.error("Error fetching goodness posts:", error));
+  // }, [ngoId]);
+const [loading, setLoading] = useState(false);
+
+useEffect(() => {
+  if (!ngoId) return; // optional guard
+
+  setLoading(true); // start loading
+
+  fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch goodness posts");
+      return response.json();
+    })
+    .then((data) => {
+      const posts = Object.keys(data).map((key) => ({
+        goodnessId: key,
+        ...data[key],
+      }));
+      setGoodnessPosts(posts);
+      setLoading(false); // finished loading
+    })
+    .catch((error) => {
+      console.error("Error fetching goodness posts:", error);
+      setLoading(false); // finished loading even on error
+    });
+}, [ngoId]);
 
   const handleDeleteClick = (postId) => {
     setGoodnessIdToDelete(postId); // Store the ID of the goodness post to delete
@@ -59,6 +85,13 @@ const DeleteGoodness = () => {
   const handleCancelDelete = () => {
     setShowAlert(false); // Hide the alert if cancel is clicked
   };
+if (loading) {
+  return (
+    <div className="flex justify-center items-center mt-96">
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="container mx-auto p-6 pt-20">

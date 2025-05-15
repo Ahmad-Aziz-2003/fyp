@@ -88,6 +88,12 @@ const Donation = () => {
               Item-Based Donations
               </button>
             </Link>
+             <Link to="/ngo-dashboard/item-history">
+              <button className="px-4 py-2 bg-green-700 text-lg font-bold text-white rounded hover:bg-green-600 transition">
+              Item-Based History
+              </button>
+            </Link>
+
             {/* <Link to="/ngo-dashboard/deleteCampaign">
               <button className="px-4 py-2 bg-green-700 text-lg font-bold text-white rounded hover:bg-green-600 transition">
                 Delete Campaigns

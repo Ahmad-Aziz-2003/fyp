@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Home = () => {
     contact: {},
     categories: [],
   });
+  const [loading, setLoading] = useState(true);
 
   const [campaigns, setCampaigns] = useState([]);
   const [goodnessPosts, setGoodnessPosts] = useState([]);
@@ -27,44 +29,82 @@ const Home = () => {
   const [currentGoodnessIndex, setCurrentGoodnessIndex] = useState(0);
   const ngoId = localStorage.getItem("ngoId");
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/ngos/ngoinfo/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.ngoData) {
-          const parsedAddress = JSON.parse(data.ngoData.address || "{}");
-          const parsedContact = JSON.parse(data.ngoData.contact || "{}");
-          setNgoData({
-            ...data.ngoData,
-            address: parsedAddress,
-            contact: parsedContact,
-          });
-        }
-      })
-      .catch((error) => console.error("Error fetching NGO data:", error));
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/api/ngos/ngoinfo/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data && data.ngoData) {
+  //         const parsedAddress = JSON.parse(data.ngoData.address || "{}");
+  //         const parsedContact = JSON.parse(data.ngoData.contact || "{}");
+  //         setNgoData({
+  //           ...data.ngoData,
+  //           address: parsedAddress,
+  //           contact: parsedContact,
+  //         });
+  //       }
+  //     })
+  //     .catch((error) => console.error("Error fetching NGO data:", error));
 
-    fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const campaignList = Object.keys(data).map((key) => ({
-          campaignId: key,
-          ...data[key],
-        }));
-        setCampaigns(campaignList);
-      })
-      .catch((error) => console.error("Error fetching campaigns:", error));
+  //   fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const campaignList = Object.keys(data).map((key) => ({
+  //         campaignId: key,
+  //         ...data[key],
+  //       }));
+  //       setCampaigns(campaignList);
+  //     })
+  //     .catch((error) => console.error("Error fetching campaigns:", error));
 
-    fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const goodnessList = Object.keys(data).map((key) => ({
-          goodnessId: key,
-          ...data[key],
-        }));
-        setGoodnessPosts(goodnessList);
-      })
-      .catch((error) => console.error("Error fetching goodness posts:", error));
-  }, [ngoId]);
+  //   fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const goodnessList = Object.keys(data).map((key) => ({
+  //         goodnessId: key,
+  //         ...data[key],
+  //       }));
+  //       setGoodnessPosts(goodnessList);
+  //     })
+  //     .catch((error) => console.error("Error fetching goodness posts:", error));
+  // }, [ngoId]);
+useEffect(() => {
+  const fetchNgoInfo = fetch(`http://localhost:5000/api/ngos/ngoinfo/${ngoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data.ngoData) {
+        const parsedAddress = JSON.parse(data.ngoData.address || "{}");
+        const parsedContact = JSON.parse(data.ngoData.contact || "{}");
+        setNgoData({
+          ...data.ngoData,
+          address: parsedAddress,
+          contact: parsedContact,
+        });
+      }
+    });
+
+  const fetchCampaigns = fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const campaignList = Object.keys(data).map((key) => ({
+        campaignId: key,
+        ...data[key],
+      }));
+      setCampaigns(campaignList);
+    });
+
+  const fetchGoodness = fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const goodnessList = Object.keys(data).map((key) => ({
+        goodnessId: key,
+        ...data[key],
+      }));
+      setGoodnessPosts(goodnessList);
+    });
+
+  Promise.all([fetchNgoInfo, fetchCampaigns, fetchGoodness])
+    .finally(() => setLoading(false));
+}, [ngoId]);
 
   const showNext = (index, length) => {
     return (index + 1) % length;
@@ -92,6 +132,13 @@ const Home = () => {
   const handleGoodness = () => {
     navigate("/ngo-dashboard/editGoodness");
   };
+if (loading) {
+  return (
+    <div className="flex justify-center items-center mt-96">
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10 mt-10 overflow-hidden">
@@ -308,185 +355,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// import React, { useState, useEffect } from "react";
-// import ngoImage from "../assets/ngoImage.webp"; // Placeholder Image
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
-
-// const Home = () => {
-//   const [ngoData, setNgoData] = useState({
-//     name: "",
-//     email: "",
-//     registrationNumber: "",
-//     profilePhoto: "",
-//     description: "",
-//     address: {},
-//     contact: {},
-//     categories: [],
-//   });
-
-//   const [campaigns, setCampaigns] = useState([]);
-//   const [goodnessPosts, setGoodnessPosts] = useState([]);
-//   const ngoId = localStorage.getItem("ngoId"); // Get the logged-in NGO's ID
-
-//   useEffect(() => {
-//     // Fetch NGO Data using the provided API
-//     fetch(`http://localhost:5000/api/ngos/ngoinfo/${ngoId}`) // Update API URL
-//       .then((response) => response.json())
-//       .then((data) => {
-//         if (data && data.ngoData) {
-//           setNgoData(data.ngoData);
-//         }
-//       })
-//       .catch((error) => console.error("Error fetching NGO data:", error));
-
-//     // Fetch Campaigns Data
-//     fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const campaignList = Object.keys(data).map((key) => ({
-//           campaignId: key,
-//           ...data[key],
-//         }));
-//         setCampaigns(campaignList);
-//       })
-//       .catch((error) => console.error("Error fetching campaigns:", error));
-
-//     // Fetch Goodness Posts
-//     fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
-//       .then((response) => response.json())
-//       .then((data) => {
-//         const goodnessList = Object.keys(data).map((key) => ({
-//           goodnessId: key,
-//           ...data[key],
-//         }));
-//         setGoodnessPosts(goodnessList);
-//       })
-//       .catch((error) => console.error("Error fetching goodness posts:", error));
-//   }, [ngoId]);
-
-//   const sliderSettings = {
-//     dots: true,
-//     infinite: true,
-//     speed: 5000,
-//     slidesToShow: 3,
-//     slidesToScroll: 1,
-//     autoplay: true,
-//     autoplaySpeed: 3000,
-//     cssEase: "linear",
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 mt-20">
-//       {/* Complete NGO Profile */}
-//       <div className="w-full max-w-5xl p-6 bg-white shadow-lg rounded-lg mb-8">
-//         <div className="flex items-center gap-4 mb-8">
-//           <img
-//             src={ngoData.profilePhoto || ngoImage} // Use the fetched photo or fallback image
-//             alt="NGO Profile"
-//             className="w-32 h-32 rounded-full object-cover border-4 border-gray-300"
-//           />
-//           <div>
-//             <h1 className="text-3xl font-bold text-gray-800">{ngoData.name}</h1>
-//             <p className="text-gray-600 text-lg">
-//               Registration #: {ngoData.registrationNumber}
-//             </p>
-//             <p className="text-gray-500 mt-1">Email: {ngoData.email}</p>
-//           </div>
-//         </div>
-
-//         {/* Description */}
-//         <div className="mb-6">
-//           <h2 className="text-xl font-semibold text-gray-800">Description</h2>
-//           <p className="text-gray-600 mt-2 leading-relaxed">
-//             {ngoData.description}
-//           </p>
-//         </div>
-
-//         {/* Address */}
-//         <div className="mb-6">
-//           <h2 className="text-xl font-semibold text-gray-800">Address</h2>
-//           <p className="text-gray-600">
-//             {ngoData.address.officeLocation}, {ngoData.address.city},{" "}
-//             {ngoData.address.state}, {ngoData.address.country} -{" "}
-//             {ngoData.address.zipCode}
-//           </p>
-//         </div>
-
-//         {/* Contact */}
-//         <div className="mb-6">
-//           <h2 className="text-xl font-semibold text-gray-800">Contact</h2>
-//           <p className="text-gray-600">
-//             Phone: {ngoData.contact.phone || "N/A"}
-//             <br />
-//             Email: {ngoData.contact.email || "N/A"}
-//           </p>
-//         </div>
-
-//         {/* Categories */}
-//         <div className="mb-6">
-//           <h2 className="text-xl font-semibold text-gray-800">Categories</h2>
-//           <p className="text-gray-600">
-//             {ngoData.categories.length > 0
-//               ? ngoData.categories.join(", ")
-//               : "No categories listed."}
-//           </p>
-//         </div>
-//       </div>
-
-//       {/* Campaigns Section */}
-//       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg mb-8">
-//         <h2 className="text-2xl font-bold text-gray-800 mb-4">Our Campaigns</h2>
-//         <Slider {...sliderSettings}>
-//           {campaigns.map((campaign) => (
-//             <div
-//               key={campaign.campaignId}
-//               className="p-4 bg-gray-100 rounded-lg shadow-md flex flex-col items-center justify-center mx-2"
-//             >
-//               {campaign.imageUrls && campaign.imageUrls[0] && (
-//                 <img
-//                   src={campaign.imageUrls[0]}
-//                   alt={campaign.title}
-//                   className="w-64 h-40 object-cover rounded-lg mb-4"
-//                 />
-//               )}
-//               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-//                 {campaign.title}
-//               </h3>
-//             </div>
-//           ))}
-//         </Slider>
-//       </div>
-
-//       {/* Goodness Posts Section */}
-//       <div className="w-full max-w-6xl p-6 bg-white shadow-lg rounded-lg">
-//         <h2 className="text-2xl font-bold text-gray-800 mb-4">
-//           Goodness Posts
-//         </h2>
-//         <Slider {...sliderSettings}>
-//           {goodnessPosts.map((post) => (
-//             <div
-//               key={post.goodnessId}
-//               className="p-4 bg-gray-100 rounded-lg shadow-md flex flex-col items-center justify-center mx-2"
-//             >
-//               {post.imageUrls && post.imageUrls[0] && (
-//                 <img
-//                   src={post.imageUrls[0]}
-//                   alt={post.title}
-//                   className="w-64 h-40 object-cover rounded-lg mb-4"
-//                 />
-//               )}
-//               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-//                 {post.title}
-//               </h3>
-//             </div>
-//           ))}
-//         </Slider>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Home;

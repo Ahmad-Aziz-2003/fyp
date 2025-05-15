@@ -95,6 +95,16 @@ const Sidebar = () => {
               <p className="text-2xl">Projects</p>
             </div>
           </Link>
+
+           <Link
+            to={"/ngo-dashboard/stats"}
+            className="sidebar-item no-underline"
+          >
+            <div className="flex items-center space-x-3 p-2 mt-2 hover:bg-green-700 rounded-lg transition-colors duration-300">
+              <FaHandsHelping size={24} />
+              <p className="text-2xl">Stats</p>
+            </div>
+          </Link>
         </div>
       </div>
       <div className="flex-1 ml-64 overflow-y-auto "></div>

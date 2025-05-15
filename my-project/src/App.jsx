@@ -7,7 +7,7 @@ import Login from "./components/Login.jsx";
 import LandingHome from "./Pages/LandingHome.jsx";
 import RequestPending from "./Pages/RequestPending.jsx";
 import IsDeactive from "./Pages/isDeactive.jsx";
-
+import { Toaster } from "react-hot-toast";
 const App = () => {
   const location = useLocation();
 
@@ -15,7 +15,16 @@ const App = () => {
     <div>
       {/* Conditionally render the Navbar based on the current route */}
       {/* {location.pathname !== "/" && <Navbar />} */}
-
+ {/* Global Toaster Setup */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
       <Routes>
         {/* Render the Home component first at the root route */}
         <Route path="/" element={<LandingHome />} />

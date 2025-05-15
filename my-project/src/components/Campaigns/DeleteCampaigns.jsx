@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const DeleteCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -7,22 +8,43 @@ const DeleteCampaigns = () => {
   const [alertMessage2, setAlertMessage2] = useState(""); // To track the alert message
   const [showAlert2, setShowAlert2] = useState(false); // To control alert visibility
   const [campaignIdToDelete, setCampaignIdToDelete] = useState(null); // To track which campaign is being deleted
+  const [loading, setLoading] = useState(true);
+
   const ngoId = localStorage.getItem("ngoId"); // Retrieve NGO ID from local storage
 
-  useEffect(() => {
-    // Fetching data from the API
-    fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extracting campaigns and adding the campaignId as part of the campaign data
-        const campaignList = Object.keys(data).map((key) => ({
-          campaignId: key, // The key is the campaignId
-          ...data[key], // The campaign data
-        }));
-        setCampaigns(campaignList);
-      })
-      .catch((error) => console.error("Error fetching campaigns:", error));
-  }, [ngoId]);
+  // useEffect(() => {
+  //   // Fetching data from the API
+  //   fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Extracting campaigns and adding the campaignId as part of the campaign data
+  //       const campaignList = Object.keys(data).map((key) => ({
+  //         campaignId: key, // The key is the campaignId
+  //         ...data[key], // The campaign data
+  //       }));
+  //       setCampaigns(campaignList);
+  //     })
+  //     .catch((error) => console.error("Error fetching campaigns:", error));
+  // }, [ngoId]);
+useEffect(() => {
+  setLoading(true); // Start loading before fetching
+
+  fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const campaignList = Object.keys(data).map((key) => ({
+        campaignId: key,
+        ...data[key],
+      }));
+      setCampaigns(campaignList);
+    })
+    .catch((error) => {
+      console.error("Error fetching campaigns:", error);
+    })
+    .finally(() => {
+      setLoading(false); // Stop loading after success or failure
+    });
+}, [ngoId]);
 
   const handleDeleteClick = (postId) => {
     setCampaignIdToDelete(postId); // Store the ID of the campaign to delete
@@ -62,6 +84,13 @@ const DeleteCampaigns = () => {
   const handleCancelDelete = () => {
     setShowAlert(false); // Hide the alert if cancel is clicked
   };
+if (loading) {
+  return (
+    <div className="flex justify-center items-center mt-96">
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="container mx-auto p-6">

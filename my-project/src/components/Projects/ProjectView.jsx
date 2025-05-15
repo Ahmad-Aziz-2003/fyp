@@ -9,7 +9,8 @@
 //   const navigate = useNavigate();
 
 //   const ngoId = localStorage.getItem("ngoId"); // Retrieve NGO ID from local storage
-// console.log(ngoId);
+//   console.log(ngoId);
+
 //   useEffect(() => {
 //     // Fetch all projects from multiple APIs
 //     const fetchProjects = async () => {
@@ -28,6 +29,12 @@
 //         const futureProjects = await futureResponse.json();
 //         const completedProjects = await completedResponse.json();
 
+//         // Log the responses to inspect their structure
+//         console.log("Ongoing Projects:", ongoingProjects);
+//         console.log("Future Projects:", futureProjects);
+//         console.log("Completed Projects:", completedProjects);
+
+//         // Check if completedProjects is an array before using map
 //         const allProjects = [
 //           ...ongoingProjects.map((project) => ({
 //             ...project,
@@ -37,10 +44,12 @@
 //             ...project,
 //             status: "future",
 //           })),
-//           ...completedProjects.map((project) => ({
-//             ...project,
-//             status: "completed",
-//           })),
+//           ...(Array.isArray(completedProjects)
+//             ? completedProjects.map((project) => ({
+//                 ...project,
+//                 status: "completed",
+//               }))
+//             : []), // Safely handle if completedProjects is not an array
 //         ];
 
 //         setProjects(allProjects);
@@ -180,6 +189,7 @@
 // export default ProjectView;
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ProjectView = () => {
   const [projects, setProjects] = useState([]);
@@ -189,7 +199,6 @@ const ProjectView = () => {
   const navigate = useNavigate();
 
   const ngoId = localStorage.getItem("ngoId"); // Retrieve NGO ID from local storage
-  console.log(ngoId);
 
   useEffect(() => {
     // Fetch all projects from multiple APIs
@@ -209,12 +218,6 @@ const ProjectView = () => {
         const futureProjects = await futureResponse.json();
         const completedProjects = await completedResponse.json();
 
-        // Log the responses to inspect their structure
-        console.log("Ongoing Projects:", ongoingProjects);
-        console.log("Future Projects:", futureProjects);
-        console.log("Completed Projects:", completedProjects);
-
-        // Check if completedProjects is an array before using map
         const allProjects = [
           ...ongoingProjects.map((project) => ({
             ...project,
@@ -229,11 +232,11 @@ const ProjectView = () => {
                 ...project,
                 status: "completed",
               }))
-            : []), // Safely handle if completedProjects is not an array
+            : []),
         ];
 
         setProjects(allProjects);
-        setFilteredProjects(allProjects); // Default to show all projects
+        setFilteredProjects(allProjects);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -256,9 +259,16 @@ const ProjectView = () => {
     }
   };
 
-  if (loading) {
-    return <div className="text-center text-gray-500">Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div className="text-center text-gray-500">Loading...</div>;
+  // }
+if (loading) {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}>
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="container mx-auto p-6 mt-20">
@@ -268,38 +278,17 @@ const ProjectView = () => {
 
       {/* Filter Buttons */}
       <div className="flex justify-center space-x-4 mb-6">
-        <button
-          className={`px-4 py-2 rounded ${
-            filter === "all" ? "bg-green-700 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => handleFilterChange("all")}
-        >
-          All Projects
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${
-            filter === "ongoing" ? "bg-green-700 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => handleFilterChange("ongoing")}
-        >
-          Ongoing Projects
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${
-            filter === "future" ? "bg-green-700 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => handleFilterChange("future")}
-        >
-          Future Projects
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${
-            filter === "completed" ? "bg-green-700 text-white" : "bg-gray-200"
-          }`}
-          onClick={() => handleFilterChange("completed")}
-        >
-          Completed Projects
-        </button>
+        {["all", "ongoing", "future", "completed"].map((status) => (
+          <button
+            key={status}
+            className={`px-4 py-2 rounded ${
+              filter === status ? "bg-green-700 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => handleFilterChange(status)}
+          >
+            {status.charAt(0).toUpperCase() + status.slice(1)} Projects
+          </button>
+        ))}
       </div>
 
       {/* Project List */}
@@ -354,7 +343,7 @@ const ProjectView = () => {
               className="mt-4 bg-green-700 text-white px-4 py-2 rounded hover:bg-green-600 transition"
               onClick={() => {
                 localStorage.setItem("projectId", project.id); // Store project ID in localStorage
-                navigate(`/project-dashboard/edit/${project.id}`); // Navigate to the edit page
+                navigate(`/ngo-dashboard/viewProject/edit/`); // Navigate using useNavigate
               }}
             >
               Edit

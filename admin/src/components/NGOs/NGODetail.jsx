@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import CircularProgress from '@mui/material/CircularProgress'; // Import this at the top
 const NGODetail = () => {
   const navigate = useNavigate();
   const [ngoId, setNgoId] = useState(localStorage.getItem("ngoID"));
@@ -44,9 +44,31 @@ const NGODetail = () => {
     }
   };
 
-  if (loading) return <div className="text-center mt-10 text-xl">Loading...</div>;
-  if (error) return <div className="text-center mt-10 text-xl text-red-500">{error}</div>;
-  if (!ngo) return <div className="text-center mt-10 text-xl">NGO data not found.</div>;
+
+
+if (loading) {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '24rem' }}>
+      <CircularProgress />
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '20rem', color: 'red', fontSize: '1.25rem' }}>
+      {error}
+    </div>
+  );
+}
+
+if (!ngo) {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '20rem', fontSize: '1.25rem' }}>
+      NGO data not found.
+    </div>
+  );
+}
 
   return (
     <div className="min-h-screen py-10 px-6 mt-20">

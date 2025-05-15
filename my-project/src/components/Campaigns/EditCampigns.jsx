@@ -1,26 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EditCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const navigate = useNavigate(); // Create the navigate function
+const [loading, setLoading] = useState(true);
 
   const ngoId = localStorage.getItem("ngoId"); // Retrieve NGO ID from local storage
 
+  // useEffect(() => {
+  //   // Fetching data from the API
+  //   fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Extracting campaigns and adding the campaignId as part of the campaign data
+  //       const campaignList = Object.keys(data).map((key) => ({
+  //         campaignId: key, // The key is the campaignId
+  //         ...data[key], // The campaign data
+  //       }));
+  //       setCampaigns(campaignList);
+  //       setLoading(false)
+  //     })
+  //     .catch((error) => console.error("Error fetching campaigns:", error));
+  // }, [ngoId]);
   useEffect(() => {
-    // Fetching data from the API
-    fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extracting campaigns and adding the campaignId as part of the campaign data
-        const campaignList = Object.keys(data).map((key) => ({
-          campaignId: key, // The key is the campaignId
-          ...data[key], // The campaign data
-        }));
-        setCampaigns(campaignList);
-      })
-      .catch((error) => console.error("Error fetching campaigns:", error));
-  }, [ngoId]);
+  setLoading(true); // Start loading before the fetch begins
+
+  fetch(`http://localhost:5000/api/campaigns/All-Campaigns/${ngoId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const campaignList = Object.keys(data).map((key) => ({
+        campaignId: key,
+        ...data[key],
+      }));
+      setCampaigns(campaignList);
+    })
+    .catch((error) => {
+      console.error("Error fetching campaigns:", error);
+    })
+    .finally(() => {
+      setLoading(false); // Stop loading in both success and error cases
+    });
+}, [ngoId]);
+
+if (loading) {
+  return (
+    <div className="flex justify-center items-center mt-96">
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="container mx-auto p-6">

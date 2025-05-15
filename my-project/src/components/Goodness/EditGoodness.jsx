@@ -1,26 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import CircularProgress from "@mui/material/CircularProgress";
 
 const EditGoodness = () => {
   const [goodnessPosts, setGoodnessPosts] = useState([]);
   const navigate = useNavigate(); // Create the navigate function
+const [loading, setLoading] = useState(true);
 
   const ngoId = localStorage.getItem("ngoId"); // Retrieve the NGO ID from local storage
 
+  // useEffect(() => {
+  //   // Fetching data from the API
+  //   fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Extracting the data and adding the goodnessId as part of the post data
+  //       const posts = Object.keys(data).map((key) => ({
+  //         goodnessId: key, // The key is the goodnessId
+  //         ...data[key], // The post data
+  //       }));
+  //       setGoodnessPosts(posts);
+  //     })
+  //     .catch((error) => console.error("Error fetching goodness posts:", error));
+  // }, [ngoId]);
   useEffect(() => {
-    // Fetching data from the API
-    fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extracting the data and adding the goodnessId as part of the post data
-        const posts = Object.keys(data).map((key) => ({
-          goodnessId: key, // The key is the goodnessId
-          ...data[key], // The post data
-        }));
-        setGoodnessPosts(posts);
-      })
-      .catch((error) => console.error("Error fetching goodness posts:", error));
-  }, [ngoId]);
+  if (!ngoId) return;  // Optional: skip fetch if ngoId is falsy
+
+  setLoading(true); // Start loading
+
+  fetch(`http://localhost:5000/api/goodness/Allgoodness/${ngoId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch goodness posts");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const posts = Object.keys(data).map((key) => ({
+        goodnessId: key,
+        ...data[key],
+      }));
+      setGoodnessPosts(posts);
+      setLoading(false); // Done loading
+    })
+    .catch((error) => {
+      console.error("Error fetching goodness posts:", error);
+      setLoading(false); // Done loading, even on error
+    });
+}, [ngoId]);
+if (loading) {
+  return (
+    <div className="flex justify-center items-center mt-96">
+      <CircularProgress />
+    </div>
+  );
+}
 
   return (
     <div className="container mx-auto p-6">
