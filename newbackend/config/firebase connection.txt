@@ -1,0 +1,4 @@
+1.firebaseConfig
+2.firebasefronted
+3.newapp-ddcc9-firebase-adminsdk-tmb54-2d8b45cac7
+4.testdb-4d1a5-firebase-adminsdk-u3jvg-16510cb9c4
