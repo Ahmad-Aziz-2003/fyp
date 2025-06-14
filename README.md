@@ -1,7 +1,8 @@
 # 🌟 Dast-e-Khair
-![Dast-e-Khair](https://github.com/user-attachments/assets/1beab378-b1f7-4c2b-811e-b744099c0947)
 Dast-e-Khair is a donation platform aimed at connecting donors with NGOs working in various sectors such as education, healthcare, and disaster relief. Most small or lesser-known NGOs often lack visibility and technical infrastructure, which makes it hard for them to raise donations or get volunteers. This project provides a centralized platform where donors, NGOs, and administrators can interact seamlessly.
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1beab378-b1f7-4c2b-811e-b744099c0947" alt="Dast-e-Khair" width="400"/>
+</p>
 ---
 
 ## 📌 Problem Statement
@@ -22,12 +23,18 @@ In Pakistan, many NGOs—especially the smaller or less popular ones—struggle 
 ---
 
 ## 🏗️ System Architecture
-![System Architecture](https://github.com/user-attachments/assets/280f95ea-d6fe-4267-87c4-3bb478782b82)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/280f95ea-d6fe-4267-87c4-3bb478782b82" alt="System Architecture" width="500"/>
+</p>
 
 ---
 
 ## 📊 ERD / Database Diagram
-![ER Diagram](https://github.com/user-attachments/assets/a3f951bb-919b-4167-ab40-58e1d86a7f5f)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a3f951bb-919b-4167-ab40-58e1d86a7f5f" alt="ER Diagram" width="500"/>
+</p>
 
 ---
 
